@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Graficas</title>
+
+        <link rel="stylesheet" href="./css/graficos.css">
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+
+        <script src="./js/lib/jquery-3.2.1.min.js"></script>
+        <script src="./js/lib/popper.min.js"></script>
+        <script src="./js/lib/bootstrap.min.js"></script>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="./css/bootstrap-select.min.css">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="./js/lib/bootstrap-select.min.js"></script>
+
+        <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+        <script src="./js/i18n/defaults-es_ES.min.js"></script>
+        
+        
+
+        <link rel="stylesheet" href="./css/font-awesome.css">
+
+
+        <script src="./js/d3.v4.min.js"></script>
+
+        <script src="./js/barras.js"></script>
+        <script src="./js/lineas.js"></script>
+        <script src="./js/pie.js"></script>
+
+        <!-- map -->
+         <script src="./js/map.js"></script>
+        
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+        
+
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <a class="navbar-brand" href="#">Anal&iacute;tica UPTC</a>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Estudiantes
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Aspirantes</a>
+                            <a class="dropdown-item" href="#">Cupos</a>
+                            <a class="dropdown-item" href="#">Matriculados primer curso</a>
+                            <a class="dropdown-item" href="#">Matriculados primera vez</a>
+                            <a class="dropdown-item" href="#">Admitidos</a>
+                            <a class="dropdown-item" href="poblacion.html">Poblaci&oacute;n</a>
+                            <a class="dropdown-item" href="desercion.html">Deserci&oacute;n</a>
+                            <a class="dropdown-item" href="Exonerados.html">Exonerados</a>
+                            <a class="dropdown-item" href="Graduados.html">Graduados</a>
+                            <a class="dropdown-item" href="TerminacionAcademica.html">Terminación Acad&eacute;mica</a>
+                            <a class="dropdown-item" href="Transferencia.html">Transferencias</a>
+                            <a class="dropdown-item" href="Reintegro.html">Reintegro</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Profesores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="descargar();">Descargar</a>
+                    </li>
+                </ul>
+            </div>
+            <span class="navbar-text">
+                % de Cantidad de Registros: 830
+            </span>
+        </nav>
+
+        <div class="content">
+            <h1>Anal&iacute;tica Poblacion Estudiantes</h1>
+            <div class="row">
+                <div class="card col-xl-6 col-lg-8 col-md-12">
+                    <h4 class="card-header">Semestre</h4>
+                    <div class="card-body row">
+                        <div class="col-md-12">
+                            <select class="selectpicker" multiple id="semestre1">
+                                <option value="1">2017-1</option>
+                                <option value="2">2016-2</option>
+                                <option value="3">2016-1</option>
+                                <option value="4">2015-2</option>
+                                <option value="5">2015-1</option>
+                                <option value="6">2014-2</option>
+                                <option value="7">2014-1</option>
+                                <option value="8">2013-2</option>
+                                <option value="9">2013-1</option>
+
+                            </select>
+                            <script>
+                                $('#semestre1').selectpicker();
+                                $('#semestre1').val([1, 2, 3]);
+                                $('#semestre1').selectpicker('refresh');
+                            </script>
+                        </div>
+                        <div id="semestre" class="col-md-12"></div>
+
+                        <script>lineas('semestre', './webresources/informacion/lineas')</script>
+                    </div>
+                </div>
+                <div class="card col-xl-3 col-lg-4 col-md-6" >
+                    <h4 class="card-header">Origen Geogr&aacute;fico</h4>
+                    <div class="card-body">
+                        <div id="origen-geografico">
+                            <div class="map"></div>
+                            </div>
+                    </div>
+                </div>
+                <div class="card col-xl-3 col-lg-4 col-md-6" >
+                    <h4 class="card-header">Origen Academico</h4>
+                    <div class="card-body">
+                        <div id="origen-academico">
+                             <div class="map"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-xl-3 col-lg-4 col-md-6" >
+                    <h4 class="card-header">Modalidad</h4>
+                    <div class="card-body">
+                        <div id="modalidad"></div>
+                    </div>
+                    <script>
+                        pie('modalidad', './webresources/informacion/pie');
+                    </script>
+                </div>
+                
+                <div class="card col-xl-3 col-lg-4 col-md-6" >
+                    <h4 class="card-header">G&eacute;nero</h4>
+                    <div class="card-body">
+                        <div id="genero"></div>
+                    </div>
+                    <script>
+                        pie('genero', './webresources/informacion/pie');
+                    </script>
+                </div>
+                
+                <div class="card col-xl-3 col-lg-4 col-md-6" >
+                    <h4 class="card-header">Jornada</h4>
+                    <div class="card-body">
+                        <div id="jornada"></div>
+                    </div>
+                    <script>
+                        pie('jornada', './webresources/informacion/pie');
+                    </script>
+                </div>
+                <div class="card col-xl-3 col-lg-4 col-md-6" >
+                    <h4 class="card-header">Sede</h4>
+                    <div class="card-body">
+                        <div id="sede"></div>
+                    </div>
+                    <script>
+                        pie('sede', './webresources/informacion/pie');
+                    </script>
+                </div>
+
+
+                <div class="card col-xl-4 col-lg-4 col-md-6" >
+                    <h4 class="card-header">Facultad</h4>
+                    <div class="card-body">
+                        <div id="facultad"></div>
+                        <script>
+                            barras('facultad', './webresources/informacion/facultad');
+                        </script>
+                    </div>
+                </div>
+                <div class="card col-xl-8 col-lg-8 col-md-12" >
+                    <h4 class="card-header">Programa</h4>
+                    <div class="card-body">
+                        <div id="programa"></div>
+                        <script>
+                            barras('programa', './webresources/informacion/barras');
+                        </script>
+                    </div>
+                </div>
+                <div class="card col-xl-12 col-lg-12 col-md-12" >
+                    <h4 class="card-header">Semestre Acad&eacute;mico</h4>
+                    <div class="card-body">
+                        <div id="semestreacademico"></div>
+                        <script>
+                            barras('semestreacademico', './webresources/informacion/barras');
+                        </script>
+                    </div>
+                </div>
+
+                
+                
+                
+
+            </div>
+        </div>
+        
+        <script>
+            function descargar(){
+                html2canvas(document.body, {
+                    onrendered(canvas) {
+                        $('body').append('<a id="download">a<a/>')
+                        var link = document.getElementById('download');
+                        var image = canvas.toDataURL();
+                        link.href = image;
+                        link.download = 'screenshot.png';
+                        link.click();
+                    }
+                });
+                return false;
+            }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANsX6hChHWHxKZdmpNAFIxfUxqMM3P7-c&callback=initMap" async defer>
+	                    </script>
+    </body>
+</html>
