@@ -1,10 +1,9 @@
 function barras(id, urlDatos) {
     var div = d3.select("#" + id);
     div.class = 'barras';
-
     var w = document.getElementById(id).clientWidth;
-    div.html('<svg width="' + w + '" height="' + (window.innerWidth * 4 / 12 * 9 / 16+20) + '"></svg>');
-
+    div.html('<select class="selectpicker" multiple id="select'+id+'"> </select><svg width="' + w + '" height="' + (window.innerWidth * 4 / 12 * 9 / 16+20) + '"></svg>');
+    $('#'+"select"+id).selectpicker();
     var svg = d3.select("#" + id + ">svg");
     var margin = {top: 70, right: 60, bottom: 0, left: 60};
     var width = +w - margin.left - margin.right;
@@ -13,6 +12,8 @@ function barras(id, urlDatos) {
     var x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
     var y = d3.scaleLinear().rangeRound([height, 0]);
 
+    
+    
     var g = svg.append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -61,18 +62,36 @@ function barras(id, urlDatos) {
     d3.json(urlDatos, function (error, data) {
         if (error)
             throw error;
-        
+       
         var total=d3.sum(data.map(function (v) {
             return v.valor;
         }));
-            
+        
+        var array=[];
+        var select=document.getElementById("select"+id);
+        var option = document.createElement("option");
+             option.value = "Seleccionar Todos";
+             option.textContent="Seleccionar Todos";
+             select.appendChild(option);
+             array.push("Seleccionar Todos");
+        data.map(function(d){
+            var option = document.createElement("option");
+             option.value = d.clave;
+             option.textContent=d.clave;
+             select.appendChild(option);
+             array.push(d.clave);
+             
+       });
+        
+        $('#'+"select"+id).val(array);
+        $('#'+"select"+id).selectpicker('refresh');
         x.domain(data.map(function (d) {
             return d.id;
         }));
         y.domain([0, d3.max(data, function (d) {
                 return d.valor;
             })]);
-
+        
         g.append("g")
                 .attr("class", "axis axis--x")
                 .attr("transform", "translate(0," + height + ")")
@@ -87,6 +106,7 @@ function barras(id, urlDatos) {
                 .attr("dy", "0.71em")
                 .attr("text-anchor", "end")
                 .text("Frequency");
+        
 
         g.selectAll(".bar")
                 .data(data)
@@ -117,4 +137,5 @@ function barras(id, urlDatos) {
                 })
                 ;
     });
+      
 }
