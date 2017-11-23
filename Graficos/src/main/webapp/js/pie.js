@@ -2,12 +2,12 @@ var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d5
 
 function pie(id, url) {
     var div = d3.select("#" + id);
-    div.class = 'barras';
-
+    div.class = 'pastel';
     var w = document.getElementById(id).clientWidth;
-    div.html('<svg width="' + w + '" height="' + (window.innerWidth * 4 / 12 * 9 / 16) + '"></svg>');
-
+    div.html('<select class="selectpicker" multiple id="select'+id+'"> </select><svg width="' + w + '" height="' + (window.innerWidth * 4 / 12 * 9 / 16+20) + '"></svg>');
+    $('#'+"select"+id).selectpicker();
     var svg = d3.select("#" + id + ">svg");
+    
     var width = +svg.attr("width");
     var height = +svg.attr("height");
     var radius = (Math.min(width, height)-40) / 2;
@@ -75,6 +75,37 @@ function pie(id, url) {
                 return v.valor;
             }));
             
+
+
+        var array=[];
+        var select=document.getElementById("select"+id);
+        var option = document.createElement("option");
+             option.value = "Seleccionar Todos";
+             option.textContent="Seleccionar Todos";
+             select.appendChild(option);
+             array.push("Seleccionar Todos");
+        data.map(function(d){
+            var option = document.createElement("option");
+             option.value = d.clave;
+             option.textContent=d.clave;
+             select.appendChild(option);
+             array.push(d.clave);
+             
+       });
+        
+        $('#'+"select"+id).val(array);
+        $('#'+"select"+id).selectpicker('refresh');
+        $('#'+"select"+id).on('changed.bs.select', function(e, item, selected){
+            if(item==0){
+                if(selected){
+                    $('#'+"select"+id).val(array);
+                    $('#'+"select"+id).selectpicker('refresh');
+                }else{
+                    $('#'+"select"+id).val([]);
+                    $('#'+"select"+id).selectpicker('refresh');
+                }
+            }
+        });
 
         var arc = g.selectAll(".arc")
                 .data(pie(data))

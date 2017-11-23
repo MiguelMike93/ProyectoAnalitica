@@ -85,6 +85,21 @@ function barras(id, urlDatos) {
         
         $('#'+"select"+id).val(array);
         $('#'+"select"+id).selectpicker('refresh');
+        
+        $('#'+"select"+id).on('changed.bs.select', function(e, item, selected){
+            if(item==0){
+                if(selected){
+                    $('#'+"select"+id).val(array);
+                    $('#'+"select"+id).selectpicker('refresh');
+                }else{
+                    $('#'+"select"+id).val([]);
+                    $('#'+"select"+id).selectpicker('refresh');
+                }
+            }
+        });
+        
+        
+        
         x.domain(data.map(function (d) {
             return d.id;
         }));
